@@ -19,7 +19,7 @@ class EdxPc2JudgeBlock(XBlock):
     problemname = String(help="URL of the video page at the provider", default=None, scope=Scope.content)
     problemnumber = Integer(help="Maximum width of the video", default=1, scope=Scope.content)
     allproblem = Integer(help="Maximum height of the video", default=450, scope=Scope.content)
-    watched = Integer(help="How many times the student has watched it?", default=0, scope=Scope.user_state)
+    warnning = Integer(help="How many times the student has watched it?", default=0, scope=Scope.user_state)
 
     def student_view(self, context):
         HOST, PORT = "140.115.51.227", 9876
@@ -113,7 +113,16 @@ class EdxPc2JudgeBlock(XBlock):
         self.problemname = data.get('problemname')
         self.problemnumber = data.get('problemnumber')
         self.allproblem = data.get('allproblem')
-
+        """
+        HOST, PORT = "140.115.51.227", 9889
+        sock3 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock3.connect((HOST, PORT))
+        sock3.sendall(str(self.problemnumber))
+        check = sock.recv(1024).strip()
+        if(check=='warn'):
+            self.warnning=1
+        sock.close()
+        """
         return {'result': 'success'}
 
     @XBlock.json_handler
